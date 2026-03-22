@@ -1,35 +1,27 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { AppDrawer } from '@/components/navigation/AppDrawer';
+import { CustomTabBar } from '@/components/navigation/CustomTabBar';
+import { AppDrawerProvider } from '@/context/AppDrawerContext';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+    <AppDrawerProvider>
+      <Tabs
+        tabBar={(props) => <CustomTabBar {...props} />}
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Tabs.Screen name="index" options={{ title: 'Home' }} />
+        <Tabs.Screen name="meet-pets" options={{ title: 'Meet Pets' }} />
+        <Tabs.Screen name="find-my-pet" options={{ title: 'Find My Pet' }} />
+        <Tabs.Screen name="pet-spa" options={{ title: 'Pet Spa' }} />
+        <Tabs.Screen name="my-world" options={{ title: 'My World' }} />
+        <Tabs.Screen name="pet-match-quiz" options={{ href: null }} />
+        <Tabs.Screen name="menu/[id]" options={{ href: null }} />
+      </Tabs>
+      <AppDrawer />
+    </AppDrawerProvider>
   );
 }
